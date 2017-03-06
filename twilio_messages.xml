@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="message_view_form">
+            <field name="model">twilio.message</field>
+            <field name="type">form</field>
+            <field name="name">message_form</field>
+        </record>
+        <record model="ir.ui.view" id="message_view_list">
+            <field name="model">twilio.message</field>
+            <field name="type">tree</field>
+            <field name="name">message_list</field>
+        </record>
+
+        <record model="ir.action.act_window" id="act_message_form">
+            <field name="name">Twilio Messages</field>
+            <field name="res_model">twilio.message</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_message_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="message_view_list"/>
+            <field name="act_window" ref="act_message_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_message_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="message_view_form"/>
+            <field name="act_window" ref="act_message_form"/>
+        </record>
+        <menuitem parent="ir.menu_models" action="act_message_form"
+            id="menu_message_form"/>
+    </data>
+</tryton>

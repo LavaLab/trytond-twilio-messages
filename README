@@ -1,0 +1,19 @@
+trytonll_twilio_messages
+========================
+
+The twilio_messages module of the Tryton application platform.
+
+Installing
+----------
+
+See INSTALL
+
+License
+-------
+
+See LICENSE
+
+Copyright
+---------
+
+See COPYRIGHT

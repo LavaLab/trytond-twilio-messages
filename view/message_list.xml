@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<tree>
+    <field name="from_"/>
+    <field name="to"/>
+    <field name="resource"/>
+    <field name="sid"/>
+    <field name="status"/>
+</tree>

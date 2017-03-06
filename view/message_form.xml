@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<form>
+    <label name="from_"/>
+    <field name="from_"/>
+    <label name="to"/>
+    <field name="to"/>
+    <label name="resource"/>
+    <field name="resource" colspan="3"/>
+    <separator name="body" colspan="4"/>
+    <field name="body" colspan="4"/>
+    <label name="sid"/>
+    <field name="sid"/>
+    <label name="status"/>
+    <field name="status"/>
+    <label name="error_code"/>
+    <field name="error_code"/>
+    <label name="error_message"/>
+    <field name="error_message"/>
+</form>
