@@ -1,0 +1,6 @@
+4.2.1 (2017-06-18)
+------------------
+
+Fix
+~~~
+- Set version of required module twilio to 5.7.
