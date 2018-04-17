@@ -9,8 +9,8 @@ from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond.url import HOSTNAME
 
-from twilio import TwilioException, TwimlException
-from twilio.rest import TwilioRestClient
+from twilio.base.exceptions import TwilioRestException
+from twilio.rest import Client
 
 __all__ = ['Message', 'sendmessage']
 logger = logging.getLogger(__name__)
@@ -140,10 +140,10 @@ def sendmessage(message, client=None):
     if client is None:
         client = get_twilio_client()
     try:
-        return client.messages.create(*message)
-    except (TwilioException, TwimlException):
+        return client.api.account.messages.create(*message)
+    except (TwilioRestException):
         logger.error('fail to send message', exc_info=True)
 
 
 def get_twilio_client(account_sid=ACCOUNT_SID, auth_token=AUTH_TOKEN):
-    return TwilioRestClient(account_sid, auth_token)
+    return Client(account_sid, auth_token)
