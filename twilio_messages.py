@@ -4,15 +4,17 @@ import uuid
 
 from trytond.config import config
 from trytond.ir.resource import ResourceMixin
-from trytond.model import fields
+from trytond.model import ModelView, fields
+from trytond.pool import Pool
 from trytond.pyson import Eval
 from trytond.transaction import Transaction
 from trytond.url import HOSTNAME
+from trytond.wizard import Wizard, StateView, StateTransition, Button
 
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
-__all__ = ['Message', 'sendmessage']
+__all__ = ['Message', 'sendmessage', 'SendMessage', 'SendMessageStart']
 logger = logging.getLogger(__name__)
 STATUS = [
     (None, ''),
@@ -77,7 +79,7 @@ class Message(ResourceMixin):
 
     @property
     def callback_url(self):
-        url = urllib.quote('%(database)s/twilio_messages/%(uuid)s' % {
+        url = urllib.quote('%(database)s/twiliomessages/%(uuid)s' % {
                 'database': Transaction().database.name,
                 'uuid': self.uuid,
                 })
@@ -86,9 +88,9 @@ class Message(ResourceMixin):
     @property
     def values(self):
         return {
-            'body': self.body,
-            'to': self.to,
             'from_': self.from_,
+            'to': self.to,
+            'body': self.body,
             'status_callback': self.callback_url,
             }
 
@@ -140,10 +142,46 @@ def sendmessage(message, client=None):
     if client is None:
         client = get_twilio_client()
     try:
-        return client.api.account.messages.create(*message)
+        return client.messages.create(**message)
     except (TwilioRestException):
-        logger.error('fail to send message', exc_info=True)
+        logger.error('failed to send message', exc_info=True)
 
 
 def get_twilio_client(account_sid=ACCOUNT_SID, auth_token=AUTH_TOKEN):
     return Client(account_sid, auth_token)
+
+class SendMessage(Wizard):
+    'Send Message'
+    __name__ = 'twilio.send_message'
+    start_state = 'start'
+    start = StateView(
+        'twilio.send_message.start',
+        'twilio_messages.send_message_form', [
+            Button('Cancel', 'end', 'tryton-cancel'),
+            Button('Send', 'send', 'tryton-ok', default=True)
+        ])
+    send = StateTransition()
+
+
+    def transition_send(self):
+        pool = Pool()
+        Message = pool.get('twilio.message')
+
+        message = Message(
+            from_ = self.start.from_,
+            to = self.start.to,
+            body = self.start.body,
+            resource = self.start.resource
+            )
+        message.save()
+        message.send()
+
+        return 'end'
+
+class SendMessageStart(ResourceMixin):
+    'Send Message'
+    __name__ = 'twilio.send_message.start'
+
+    from_ = fields.Char("From")
+    to = fields.Char("To", required=True)
+    body = fields.Text("Body", size=1600)

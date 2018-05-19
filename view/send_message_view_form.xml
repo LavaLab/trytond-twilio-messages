@@ -8,14 +8,4 @@
     <field name="resource" colspan="3"/>
     <separator name="body" colspan="4"/>
     <field name="body" colspan="4"/>
-    <label name="sid"/>
-    <field name="sid"/>
-    <label name="status"/>
-    <field name="status"/>
-    <label name="error_code"/>
-    <field name="error_code"/>
-    <label name="error_message"/>
-    <field name="error_message"/>
-    <label name="uuid"/>
-    <field name="uuid"/>
 </form>

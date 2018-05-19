@@ -1,10 +1,11 @@
-from werkzeug.exceptions import abort, Response
+from werkzeug.exceptions import abort
+from werkzeug.wrappers import Response
 
 from trytond.wsgi import app
 from trytond.protocols.wrappers import with_pool, with_transaction
 
 
-@app.route('/<database_name>/twilio_messages/<uuid>', methods=['POST'])
+@app.route('/<database_name>/twiliomessages/<uuid>', methods=['POST'])
 @with_pool
 @with_transaction()
 def callback(request, pool, uuid):
