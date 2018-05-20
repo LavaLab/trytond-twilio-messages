@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <tryton>
     <data>
+        <record model="ir.ui.view" id="send_message_form">
+            <field name="model">twilio.send_message.start</field>
+            <field name="type">form</field>
+            <field name="name">send_message_view_form</field>
+        </record>
         <record model="ir.ui.view" id="message_view_form">
             <field name="model">twilio.message</field>
             <field name="type">form</field>
@@ -28,5 +33,13 @@
         </record>
         <menuitem parent="ir.menu_models" action="act_message_form"
             id="menu_message_form"/>
+
+        <record model="ir.action.wizard" id="act_send_twilio_message">
+            <field name="name">Send Twilio Message</field>
+            <field name="wiz_name">twilio.send_message</field>
+            <field name="window" eval="True"/>
+        </record>
+        <menuitem parent="menu_message_form" action="act_send_twilio_message"
+            id="menu_send_twilio_message"/>
     </data>
 </tryton>

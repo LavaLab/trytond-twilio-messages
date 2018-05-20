@@ -21,7 +21,7 @@ class TwilioMessagesTestCase(ModuleTestCase):
 
         twilio_messages.sendmessage(message, client=client)
 
-        client.messages.create.assert_called_once_with(*message)
+        client.messages.create.assert_called_once_with(**message)
 
     @patch.object(twilio_messages, 'get_twilio_client')
     @with_transaction()
