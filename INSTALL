@@ -27,3 +27,13 @@ documentation:
 
 To use without installation, extract the archive into ``trytond/modules`` with
 the directory name twilio_messages.
+
+Configuration
+-------------
+
+This module adds the twilio section as well as three key values:
+
+[twilio]
+account_sid = 
+auth_token = 
+callback_url = 
